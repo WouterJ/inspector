@@ -1,0 +1,22 @@
+{
+    "name": "wouterj/inspector",
+    "description": "A fast inspector to inspect and edit files",
+    "authors": [
+        {
+            "name": "Wouter J",
+            "email": "wouter@wouterj.nl"
+        }
+    ],
+
+    "require": {
+        "symfony/finder": "dev-master",
+        "symfony/event-dispatcher": "dev-master",
+        "pimple/pimple": "1.0.x-dev"
+    },
+
+    "autoload": {
+        "psr-0": {
+            "": "src/"
+        }
+    }
+}
