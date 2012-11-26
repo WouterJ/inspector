@@ -2,7 +2,9 @@
 
 namespace Inspector;
 
+use Inspector\InspectorEvents;
 use Inspector\Iterator\Suspects;
+use Inspector\Event\FileListEvent;
 
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -31,6 +33,7 @@ class Inspector
      */
     public function inspect($directory, $needle)
     {
+        // list files
         $this->getFinder()
             ->files()
             ->name('*')
@@ -38,6 +41,12 @@ class Inspector
             ->in($directory)
         ;
 
+        $event = new FileListEvent();
+        $event->setFinder($this->getFinder());
+
+        $this->getDispatcher()->dispatch(InspectorEvents::FIND, $event);
+
+        // mark files as suspect
         $suspects = new Suspects();
 
         foreach ($this->getFinder() as $finder) {
