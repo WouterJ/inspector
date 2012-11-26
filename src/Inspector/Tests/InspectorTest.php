@@ -81,6 +81,25 @@ class InspectorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tweak the suspects
+     */
+    public function testTweakSuspects()
+    {
+        $this->getDispatcher()->addListener('inspector.mark', function (Event $event) {
+            $suspects = $event->getSuspects()->getArrayCopy();
+            array_pop($suspects); // remove the last suspect
+
+            $event->setSuspects(new Suspects($suspects));
+        });
+
+        $suspects = $this->inspector->inspect(__DIR__.'/stubs', 'world');
+
+        $this->assertSuspectsContain(array(
+            'test4.xml',
+        ), $suspects);
+    }
+
+    /**
      * Asserts that files are marked as suspect
      *
      * @param array $files

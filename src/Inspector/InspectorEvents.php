@@ -15,4 +15,14 @@ final class InspectorEvents
      * @var string
      */
     const FIND = 'inspector.find';
+
+    /**
+     * The MARK event occurs when the inspector had marked the list of files
+     * as a suspect.
+     *
+     * This event allows you to tweak the suspects iterator before returning
+     * it as suspects. The event listener method receives a
+     * Inspector\Event\SuspectEvent instance
+     */
+    const MARK = 'inspector.mark';
 }

@@ -4,6 +4,7 @@ namespace Inspector;
 
 use Inspector\InspectorEvents;
 use Inspector\Iterator\Suspects;
+use Inspector\Event\SuspectEvent;
 use Inspector\Event\FileListEvent;
 
 use Symfony\Component\Finder\Finder;
@@ -52,6 +53,11 @@ class Inspector
         foreach ($this->getFinder() as $finder) {
             $suspects->append($finder);
         }
+
+        $event = new SuspectEvent();
+        $event->setSuspects($suspects);
+
+        $this->getDispatcher()->dispatch(InspectorEvents::MARK, $event);
 
         return $suspects;
     }
