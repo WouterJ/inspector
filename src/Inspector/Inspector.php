@@ -16,7 +16,8 @@ class Inspector
     private $dispatcher;
 
     /**
-     * @param Finder $finder
+     * @param Finder                   $finder
+     * @param EventDispatcherInterface $dispatcher
      */
     public function __construct($finder, $dispatcher)
     {

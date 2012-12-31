@@ -11,7 +11,8 @@
     "require": {
         "symfony/finder": "dev-master",
         "symfony/event-dispatcher": "dev-master",
-        "pimple/pimple": "1.0.x-dev"
+        "symfony/console": "dev-master",
+        "pimple/pimple": "1.x"
     },
 
     "autoload": {
