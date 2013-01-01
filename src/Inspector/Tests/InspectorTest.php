@@ -4,6 +4,7 @@ namespace Inspector\Tests;
 
 use Inspector\Inspector;
 use Inspector\Iterator\Suspects;
+use Inspector\Filter\GitIgnoreFilterIterator;
 
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\EventDispatcher\Event;
@@ -33,7 +34,7 @@ class InspectorTest extends \PHPUnit_Framework_TestCase
 
     public function testReturnSuspectsEvenIfNothingIsFound()
     {
-        $this->assertInstanceOf('Inspector\Iterator\Suspects', $this->inspector->inspect(__DIR__.'/stubs', 'hello'));
+        $this->assertInstanceOf('Inspector\Iterator\Suspects', $this->inspector->inspect(__DIR__.'/stubs', 'notfound'));
     }
 
     /**

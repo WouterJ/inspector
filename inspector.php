@@ -21,7 +21,19 @@ $container['event_dispatcher'] = $container->share(function ($c) {
 
 // inspector
 $container['inspector.class'] = 'Inspector\Inspector';
+
+$container['inspector.filter.filters'] = new ArrayObject();
+$container['inspector.filter.filters']['gitignore'] = function () {
+    return new Inspector\Filter\GitIgnoreFilter();
+};
+$container['inspector.filter.listener'] = function ($c) {
+    return new Inspector\Listener\FilterListener($c['inspector.filter.filters']);
+};
+
 $container['inspector'] = function ($c) {
+    $c['event_dispatcher']->addListener(Inspector\InspectorEvents::FIND, array($c['inspector.filter.listener'], 'onFind'));
+    
+
     return new $c['inspector.class']($c['finder'], $c['event_dispatcher']);
 };
 

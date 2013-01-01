@@ -51,8 +51,8 @@ class Inspector
         // mark files as suspect
         $suspects = new Suspects();
 
-        foreach ($this->getFinder() as $finder) {
-            $suspects->append($finder);
+        foreach ($this->getFinder() as $file) {
+            $suspects->append($file);
         }
 
         $event = new SuspectEvent();
