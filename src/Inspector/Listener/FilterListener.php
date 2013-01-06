@@ -22,7 +22,11 @@ class FilterListener
         $finder = $event->getFinder();
 
         foreach ($filters as $filter) {
-            $finder->filter(array($filter(), 'filter'));
+            try {
+                $finder->filter(array($filter(), 'filter'));
+            } catch (\Exception $e) {
+                continue;
+            }
         }
     }
 

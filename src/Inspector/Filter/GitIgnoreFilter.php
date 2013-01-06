@@ -8,13 +8,17 @@ class GitIgnoreFilter
 
     public function __construct($gitignore_location = null)
     {
-        $gitignore_location = $gitignore_location ?: getcwd();
+        $gitignore_location = ($gitignore_location ?: getcwd()).'/.gitignore';
 
-        $gitignore = file($gitignore_location.'/.gitignore', FILE_SKIP_EMPTY_LINES | FILE_IGNORE_NEW_LINES);
-        if (false === $gitignore) {
-            throw new \RunTimeException('Problems with loading the ".gitignore"');
+        if (file_exists($gitignore_location)) {
+            $gitignore = file($gitignore_location, FILE_SKIP_EMPTY_LINES | FILE_IGNORE_NEW_LINES);
+            if (false === $gitignore) {
+                throw new \RunTimeException('Problems with loading the ".gitignore"');
+            }
+            $this->excludedFiles = $gitignore;
+        } else {
+            throw new \RunTimeException('.gitignore file not found');
         }
-        $this->excludedFiles = $gitignore;
     }
 
     public function filter(\SplFileInfo $file)
