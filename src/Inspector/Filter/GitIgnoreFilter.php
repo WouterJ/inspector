@@ -2,7 +2,7 @@
 
 namespace Inspector\Filter;
 
-class GitIgnoreFilter
+class GitIgnoreFilter implements FilterInterface
 {
     private $excludedFiles;
 

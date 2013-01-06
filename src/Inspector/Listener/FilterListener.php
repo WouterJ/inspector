@@ -23,6 +23,10 @@ class FilterListener
 
         foreach ($filters as $filter) {
             try {
+                if (!$filter instanceof FilterInterface) {
+                    throw new \LogicException();
+                }
+
                 $finder->filter(array($filter(), 'filter'));
             } catch (\Exception $e) {
                 continue;
