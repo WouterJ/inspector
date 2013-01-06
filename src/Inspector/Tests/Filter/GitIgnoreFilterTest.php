@@ -18,6 +18,15 @@ class GitIgnoreFilterTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @expectedException RunTimeException
+     * @expectedExceptionMessage .gitignore file not found
+     */
+    public function testWrongGitDirectory()
+    {
+        new GitIgnoreFilter('does-not-exists');
+    }
+
+    /**
      * @dataProvider getIgnoreData
      */
     public function testIgnore($filename, $ignored)
