@@ -41,7 +41,7 @@ class GitIgnoreFilter
             // regex
             return $string;
         } else {
-            return '/'.str_replace(array('*', '.'), array('.*?', '\.'), $string).'/';
+            return '/'.str_replace(array('/', '.', '*'), array('\/', '\.', '.*?'), $string).'/';
         }
     }
 }
