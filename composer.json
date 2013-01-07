@@ -9,15 +9,21 @@
     ],
 
     "require": {
-        "symfony/finder": "dev-master",
-        "symfony/event-dispatcher": "dev-master",
-        "symfony/console": "dev-master",
+        "symfony/finder": "2.1.x",
+        "symfony/event-dispatcher": "2.1.x",
+        "symfony/console": "2.1.x",
         "pimple/pimple": "1.x"
+    },
+    "require-dev": {
+        "behat/behat": "2.4.x"
     },
 
     "autoload": {
         "psr-0": {
             "": "src/"
         }
+    },
+    "config": {
+        "bin-dir": "bin/"
     }
 }

@@ -1,5 +1,5 @@
 {
-    "hash": "6c64972e791115576c5430a8b0cbb94d",
+    "hash": "9dec87f14ff00b45e5fd6218d050b7ff",
     "packages": [
         {
             "name": "pimple/pimple",
@@ -50,33 +50,28 @@
         },
         {
             "name": "symfony/console",
-            "version": "dev-master",
+            "version": "v2.1.6",
             "target-dir": "Symfony/Component/Console",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Console",
-                "reference": "388ea8dbc1b3e1f96721e2799eb2d037e411a281"
+                "reference": "v2.1.6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/symfony/Console/archive/388ea8dbc1b3e1f96721e2799eb2d037e411a281.zip",
-                "reference": "388ea8dbc1b3e1f96721e2799eb2d037e411a281",
+                "url": "https://github.com/symfony/Console/archive/v2.1.6.zip",
+                "reference": "v2.1.6",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3"
             },
-            "time": "2012-12-19 07:09:49",
+            "time": "2012-12-13 17:42:00",
             "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.2-dev"
-                }
-            },
             "installation-source": "source",
             "autoload": {
                 "psr-0": {
-                    "Symfony\\Component\\Console\\": ""
+                    "Symfony\\Component\\Console": ""
                 }
             },
             "notification-url": "http://packagist.org/downloads/",
@@ -98,40 +93,35 @@
         },
         {
             "name": "symfony/event-dispatcher",
-            "version": "dev-master",
+            "version": "v2.1.6",
             "target-dir": "Symfony/Component/EventDispatcher",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/EventDispatcher",
-                "reference": "ff78cb85890637367848856e06e564e890890ec7"
+                "reference": "v2.1.6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/symfony/EventDispatcher/archive/ff78cb85890637367848856e06e564e890890ec7.zip",
-                "reference": "ff78cb85890637367848856e06e564e890890ec7",
+                "url": "https://github.com/symfony/EventDispatcher/archive/v2.1.6.zip",
+                "reference": "v2.1.6",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3"
             },
             "require-dev": {
-                "symfony/dependency-injection": "2.2.*"
+                "symfony/dependency-injection": "2.1.*"
             },
             "suggest": {
-                "symfony/dependency-injection": "2.2.*",
-                "symfony/http-kernel": "2.2.*"
+                "symfony/dependency-injection": "2.1.*",
+                "symfony/http-kernel": "2.1.*"
             },
-            "time": "2012-12-19 07:09:49",
+            "time": "2012-12-06 10:00:55",
             "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.2-dev"
-                }
-            },
             "installation-source": "source",
             "autoload": {
                 "psr-0": {
-                    "Symfony\\Component\\EventDispatcher\\": ""
+                    "Symfony\\Component\\EventDispatcher": ""
                 }
             },
             "notification-url": "http://packagist.org/downloads/",
@@ -153,33 +143,28 @@
         },
         {
             "name": "symfony/finder",
-            "version": "dev-master",
+            "version": "v2.1.6",
             "target-dir": "Symfony/Component/Finder",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Finder",
-                "reference": "bd672f52f4336df87e665f456c3be1605a2ac75a"
+                "reference": "v2.1.6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/symfony/Finder/archive/bd672f52f4336df87e665f456c3be1605a2ac75a.zip",
-                "reference": "bd672f52f4336df87e665f456c3be1605a2ac75a",
+                "url": "https://github.com/symfony/Finder/archive/v2.1.6.zip",
+                "reference": "v2.1.6",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3"
             },
-            "time": "2012-12-20 07:41:17",
+            "time": "2012-12-10 12:46:54",
             "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.2-dev"
-                }
-            },
             "installation-source": "source",
             "autoload": {
                 "psr-0": {
-                    "Symfony\\Component\\Finder\\": ""
+                    "Symfony\\Component\\Finder": ""
                 }
             },
             "notification-url": "http://packagist.org/downloads/",
@@ -205,9 +190,7 @@
 
     ],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "symfony/finder": 20,
-        "symfony/event-dispatcher": 20,
-        "symfony/console": 20
-    }
+    "stability-flags": [
+
+    ]
 }
