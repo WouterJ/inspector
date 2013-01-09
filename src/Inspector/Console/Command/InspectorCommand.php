@@ -54,9 +54,9 @@ EOT
         $suspects = $inspector->inspect($input->getOption('dir'), $input->getOption('pattern'));
 
         $table->setHead(array('id', 'file'));
-        $j = 0;
-        $rows = array_map(function ($i) use (&$j) {
-            return array($j++, $i);
+        $j = 1;
+        $rows = array_map(function ($suspect) use (&$j) {
+            return array($j++, $suspect->getRelativePathName());
         }, $suspects->getArrayCopy());
         $table->setBody($rows);
 

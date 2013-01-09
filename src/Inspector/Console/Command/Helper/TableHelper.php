@@ -48,8 +48,8 @@ class TableHelper extends Helper
             $i++;
         }
         $output->writeln(array(
-            ' <info>'.$head.'</info>',
-            ' <comment>'.$headLine.'</comment>',
+            '<info>'.$head.'</info>',
+            '<comment>'.$headLine.'</comment>',
             '',
         ));
 
@@ -67,7 +67,7 @@ class TableHelper extends Helper
                 }
             }
 
-            return ' '.implode('  ', $rowLine);
+            return implode('  ', $rowLine);
         }, $this->body);
         $output->writeln($body);
     }
