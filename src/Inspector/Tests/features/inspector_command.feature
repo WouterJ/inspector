@@ -5,9 +5,9 @@ Feature: Inspector Command
 
     Scenario: Inspector looks for strings
         Given I am in a directory called "test"
-        And I have a file called "foo.txt" which contains "hello world"
-        And I have a file called "bar.php" which contains "echo 'foo world';"
-        And I have a file called "baz.txt" which contains "foobar"
+          And I have a file called "foo.txt" which contains "hello world"
+          And I have a file called "bar.php" which contains "echo 'foo world';"
+          And I have a file called "baz.txt" which contains "foobar"
         When I run "inspect" with "-p world"
         Then I should get:
             """
