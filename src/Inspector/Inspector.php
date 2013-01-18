@@ -28,30 +28,41 @@ class Inspector
     /**
      * Inspects a directory and selects files that match a needle.
      *
-     * @param string $directory The absolute path to a directory
-     * @param string $needle    The string or Regular Expression to match with the content
+     * @param string       $directory          The absolute path to a directory
+     * @param string       $needle             The string or Regular Expression to match with the content
+     * @param string|array $filter    Optional Defines a pattern(s) to exclude files
      *
      * @return Suspects The selected files
      */
-    public function inspect($directory, $needle)
+    public function inspect($directory, $needle, $filter = null)
     {
         // list files
-        $this->getFinder()
+        $finder = $this->getFinder()
             ->files()
             ->name('*')
             ->contains($needle)
             ->in($directory)
         ;
 
+        if (null !== $filter) {
+            if (is_array($filter)) {
+                foreach ($filter as $f) {
+                    $finder->notName($f);
+                }
+            } else {
+                $finder->notName($filter);
+            }
+        }
+
         $event = new FileListEvent();
-        $event->setFinder($this->getFinder());
+        $event->setFinder($finder);
 
         $this->getDispatcher()->dispatch(InspectorEvents::FIND, $event);
 
         // mark files as suspect
         $suspects = new Suspects();
 
-        foreach ($this->getFinder() as $file) {
+        foreach ($finder as $file) {
             $suspects->append($file);
         }
 

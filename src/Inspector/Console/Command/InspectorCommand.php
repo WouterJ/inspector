@@ -30,6 +30,7 @@ EOT
             ->setDefinition(array(
                 new InputOption('pattern', 'p', InputOption::VALUE_REQUIRED, 'The pattern to search for, this can be a string or a pattern'),
                 new InputOption('dir', 'd', InputOption::VALUE_REQUIRED, 'The directory to search in, this will be the current directory by default'),
+                new InputOption('filter', 'f', InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'A pattern that defines which files to ignore'),
             ))
         ;
     }
@@ -51,7 +52,7 @@ EOT
         $container = $this->getApplication()->getContainer();
         $inspector = $container['inspector'];
 
-        $suspects = $inspector->inspect($input->getOption('dir'), $input->getOption('pattern'));
+        $suspects = $inspector->inspect($input->getOption('dir'), $input->getOption('pattern'), $input->getOption('filter'));
 
         $table->setHead(array('id', 'file'));
         $j = 1;
@@ -61,5 +62,14 @@ EOT
         $table->setBody($rows);
 
         $table->render($output);
+    }
+
+    private function parseFilters($filter)
+    {
+        if (is_array($filter)) {
+            return $filter;
+        }
+
+        return explode(' ', $filter);
     }
 }
