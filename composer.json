@@ -15,6 +15,7 @@
         "pimple/pimple": "1.x"
     },
     "require-dev": {
+        "symfony/filesystem": "2.1.x",
         "behat/behat": "2.4.x"
     },
 
