@@ -4,17 +4,20 @@ use Behat\Behat\Context\ClosuredContextInterface;
 use Behat\Behat\Context\TranslatedContextInterface;
 use Behat\Behat\Context\BehatContext;
 use Behat\Behat\Exception\PendingException;
-use Behat\Behat\Event\SuiteEvent;
+use Behat\Behat\Event;
 
 use Behat\Gherkin\Node\PyStringNode;
 use Behat\Gherkin\Node\TableNode;
+
+use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * Features context.
  */
 class FeatureContext extends BehatContext
 {
-    private $tmp_dir;
+    private $tmp;
+    private $fs;
 
     /**
      * Initializes context.
@@ -24,16 +27,21 @@ class FeatureContext extends BehatContext
      */
     public function __construct(array $parameters)
     {
-        $this->tmp_dir = $tmp = isset($parameters['tmp_dir'])
+        $this->tmp = (isset($parameters['tmp_dir'])
             ? $parameters['tmp_dir']
             : sys_get_temp_dir()
-        ;
+            ).'/inspector';
 
-        if (!file_exists($tmp.'/inspector')) {
-            mkdir($tmp.'/inspector');
-        }
+        $this->fs = new Filesystem();
+    }
 
-        $this->tmp_dir .= '/inspector';
+    /**
+     * @AfterScenario
+     */
+    public function clearDir(Event\ScenarioEvent $event)
+    {
+        $fs = new Filesystem();
+        $fs->remove($this->tmp);
     }
 
     /**
@@ -43,10 +51,9 @@ class FeatureContext extends BehatContext
     {
         $this->dir = $dir;
 
-        $dir = $this->tmp_dir.'/'.$dir;
-        if (!file_exists($dir)) {
-            mkdir($dir);
-        }
+        $dir = $this->tmp.'/'.$dir;
+        $this->fs->mkdir($dir);
+
         chdir($dir);
     }
 
@@ -73,7 +80,7 @@ class FeatureContext extends BehatContext
      */
     public function getResult(PyStringNode $expected)
     {
-        $tmp = substr($this->tmp_dir, 0, -1);
+        $tmp = substr($this->tmp, 0, -1);
         $lines = array_slice($expected->getLines(), 2);
         $display = array_slice($this->display, 3);
 
