@@ -58,11 +58,27 @@ class FeatureContext extends BehatContext
     }
 
     /**
+     * @Given /^I have a directory called "([^"]*)"$/
+     */
+    public function withDir($dir)
+    {
+        $this->fs->mkdir($dir);
+    }
+
+    /**
      * @Given /^I have a file called "([^"]*)" which contains "([^"]*)"$/
      */
     public function withFile($file, $content)
     {
         file_put_contents($file, $content);
+    }
+
+    /**
+     * @Given /^I have a file called "([^"]*)" in "([^"]*)" which contains "([^"]*)"$/
+     */
+    public function withFileInDir($file, $dir, $content)
+    {
+        file_put_contents($dir.'/'.$file, $content);
     }
 
     /**
