@@ -104,10 +104,20 @@ class FeatureContext extends BehatContext
             return str_replace('\\', '/', $str);
         };
 
+        if (count($lines) !== count($display)) {
+            throw new \Exception(
+                sprintf(
+                    'Failed asserting that %d expected files are equal to %d actual suspects',
+                    count($lines),
+                    count($display)
+                )
+            );
+        }
+
         $i = 0;
         foreach ($lines as $line) {
             if ($normalize($line) !== $normalize($display[$i++])) {
-                throw new Exception(
+                throw new \Exception(
                     sprintf(
                         'Failed asserting that "%s" is equal to "%s"',
                         $normalize($line),
