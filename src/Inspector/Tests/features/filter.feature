@@ -7,11 +7,11 @@ Feature: Inspector Filters
         Given I am in a directory called "test"
           And I have a file called "foo.txt" which contains "hello world"
           And I have a file called "bar.php" which contains "echo 'foo world';"
-          And I have a file called "cat.txt" which contains "lorem ipsum"
+          And I have a file called "cat.txt" which contains "lorem ipsum world"
          When I run "inspect" with "-p world --filter=*.txt"
          Then I should get:
             """
             id  file
             ==  ===
-            1   bar.ph
+            1   bar.php
             """
