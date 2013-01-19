@@ -28,7 +28,7 @@ class MatchUtil
      */
     public static function isGlob($glob)
     {
-        return 0 !== preg_match('/\*(?<!\\)/', $glob);
+        return 0 !== preg_match('/\*(?<!\\\)/', $glob);
     }
 
     /**

@@ -26,8 +26,9 @@ $container['inspector.filter.filters'] = new ArrayObject();
 $container['inspector.filter.filters']['gitignore'] = function () {
     return new Inspector\Filter\GitIgnoreFilter();
 };
+$container['inspector.filter.listener.filters'] = array();
 $container['inspector.filter.listener'] = function ($c) {
-    return new Inspector\Listener\FilterListener($c['inspector.filter.filters']);
+    return new Inspector\Listener\FilterListener($c['inspector.filter.filters'], $c['inspector.filter.listener.filters']);
 };
 
 $container['inspector'] = function ($c) {

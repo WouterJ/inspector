@@ -7,6 +7,8 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+use Inspector\Util\MatchUtil;
+
 class InspectorCommand extends Command
 {
     public function configure()
@@ -37,6 +39,7 @@ EOT
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
+        $container = $this->getApplication()->getContainer();
         $table = $this->getHelperSet()->get('table');
 
         // set up
@@ -48,11 +51,33 @@ EOT
             $input->setOption('dir', getcwd());
         }
 
+        // filter listener
+        $filter = $input->getOption('filter');
+        $inspectorFilters = array();
+        $listenerFilters = array();
+
+        if (is_array($filter)) {
+            foreach ($filter as $f) {
+                if (MatchUtil::isMatch($f)) {
+                    $inspectorFilters[] = $f;
+                } else {
+                    $listenerFilters[] = $f;
+                }
+            }
+        } else {
+            if (MatchUtil::isMatch($filter)) {
+                $inspectorFilters[] = $f;
+            } else {
+                $listenerFilters[] = $f;
+            }
+        }
+
+        $container['inspector.filter.listener.filters'] = $listenerFilters;
+
         // inspector
-        $container = $this->getApplication()->getContainer();
         $inspector = $container['inspector'];
 
-        $suspects = $inspector->inspect($input->getOption('dir'), $input->getOption('pattern'), $input->getOption('filter'));
+        $suspects = $inspector->inspect($input->getOption('dir'), $input->getOption('pattern'), $inspectorFilters);
 
         $table->setHead(array('id', 'file'));
         $j = 1;
