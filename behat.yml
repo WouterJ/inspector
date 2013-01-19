@@ -2,3 +2,5 @@ default:
     paths:
         features: %behat.paths.base%/src/Inspector/Tests/features
         bootstrap: %behat.paths.features%/bootstrap
+    formatter:
+        name: progress
