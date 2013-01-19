@@ -3,6 +3,7 @@
 namespace Inspector\Listener;
 
 use Inspector\Event\FileListEvent;
+use Inspector\Filter\FilterInterface;
 
 class FilterListener
 {
@@ -23,11 +24,14 @@ class FilterListener
 
         foreach ($filters as $filter) {
             try {
+                $filter = $filter();
                 if (!$filter instanceof FilterInterface) {
                     throw new \LogicException();
                 }
 
-                $finder->filter(array($filter(), 'filter'));
+                $finder->filter(function (\SplFileInfo $file) use ($filter) {
+                    return $filter->filter($file);
+                });
             } catch (\Exception $e) {
                 continue;
             }
