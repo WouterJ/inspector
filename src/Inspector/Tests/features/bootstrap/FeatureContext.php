@@ -70,6 +70,8 @@ class FeatureContext extends BehatContext
      */
     public function withFile($file, $content)
     {
+        $content = str_replace('\n', PHP_EOL, $content);
+
         file_put_contents($file, $content);
     }
 
