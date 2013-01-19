@@ -15,3 +15,17 @@ Feature: Inspector Filters
             ==  ===
             1   bar.php
             """
+
+    Scenario: Inspector has build-in filters
+        Given I am in a directory called "test"
+          And I have a file called "foo.txt" which contains "hello world"
+          And I have a file called "bar.txt~" which contains "foo world"
+          And I have a file called "cat.txt.swp" which contains "bar world"
+          And I have a file called ".gitignore" which contains "*~\n*.swp"
+         When I run "inspect" with "-p world"
+         Then I should get:
+            """
+            id  file
+            ==  ===
+            1   foo.txt
+            """
