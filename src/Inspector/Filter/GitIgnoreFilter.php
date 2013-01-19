@@ -2,6 +2,8 @@
 
 namespace Inspector\Filter;
 
+use Inspector\Util\MatchUtil;
+
 class GitIgnoreFilter implements FilterInterface
 {
     private $excludedFiles;
@@ -34,14 +36,10 @@ class GitIgnoreFilter implements FilterInterface
 
     private function convertStringToPattern($string)
     {
-        $start = substr($string, 0, 1);
-        $end = substr($string, -1);
-
-        if ($start === $end || ('{' === $start && '}' === $end)) {
-            // regex
+        if (MatchUtil::isRegex($string)) {
             return $string;
         } else {
-            return '/'.str_replace(array('/', '.', '*'), array('\/', '\.', '.*?'), $string).'/';
+            return MatchUtil::convertGlob($string);
         }
     }
 }
