@@ -5,6 +5,11 @@ namespace Inspector\Event;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\EventDispatcher\Event;
 
+/**
+ * This Event is used when @link{InspectorEvents::FIND} is dispatched.
+ *
+ * @author Wouter J <wouter@wouterj.nl>
+ */
 class FileListEvent extends Event
 {
     /**

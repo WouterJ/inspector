@@ -9,8 +9,16 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 use Inspector\Util\MatchUtil;
 
+/**
+ * The main command of inspector.
+ *
+ * @author Wouter J <wouter@wouterj.nl>
+ */
 class InspectorCommand extends Command
 {
+    /**
+     * {@inheritDocs}
+     */
     public function configure()
     {
         $this
@@ -37,6 +45,9 @@ EOT
         ;
     }
 
+    /**
+     * {@inheritDocs}
+     */
     public function execute(InputInterface $input, OutputInterface $output)
     {
         $container = $this->getApplication()->getContainer();
@@ -89,6 +100,11 @@ EOT
         $table->render($output);
     }
 
+    /**
+     * @param string|array $filters An array with filters (e.g. `array('*.php', 'test/*')`) or a string (e.g. `'*.php test/.*'`)
+     *
+     * @return array
+     */
     private function parseFilters($filter)
     {
         if (is_array($filter)) {

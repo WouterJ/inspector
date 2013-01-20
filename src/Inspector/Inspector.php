@@ -10,9 +10,21 @@ use Inspector\Event\FileListEvent;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
+/**
+ * The heart of the Inspector application.
+ *
+ * @author Wouter J <wouter@wouterj.nl>
+ */
 class Inspector
 {
+    /**
+     * @param Finder
+     */
     private $finder;
+
+    /**
+     * @param EventDispatcherInterface
+     */
     private $dispatcher;
 
     /**

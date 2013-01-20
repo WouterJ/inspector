@@ -5,6 +5,11 @@ namespace Inspector\Console\Command\Helper;
 use Symfony\Component\Console\Helper\Helper;
 use Symfony\Component\Console\Output\OutputInterface;
 
+/**
+ * Renders a table in the console.
+ *
+ * @author Wouter J <wouter@wouterj.nl>
+ */
 class TableHelper extends Helper
 {
     private $head   = array();
@@ -72,6 +77,11 @@ class TableHelper extends Helper
         $output->writeln($body);
     }
 
+    /**
+     * @param boolean $force_calculate Do not use the cached version
+     *
+     * @return int
+     */
     protected function calculateColumnWidth($force_calculate = false)
     {
         if ((null === $this->widths) || $this->cacheRowCount !== ($c = count($this->body))) {
@@ -85,6 +95,9 @@ class TableHelper extends Helper
         return $this->widths;
     }
 
+    /**
+     * The actual method that calculates the column with.
+     */
     private function doCalculateColumnWidth()
     {
         $widths = array();
@@ -106,6 +119,9 @@ class TableHelper extends Helper
         $this->widths = $widths;
     }
 
+    /**
+     * {@inheritDocs}
+     */
     public function getName()
     {
         return 'table';

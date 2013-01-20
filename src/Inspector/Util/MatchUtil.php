@@ -2,6 +2,11 @@
 
 namespace Inspector\Util;
 
+/**
+ * All match related check- and parse functions.
+ *
+ * @author Wouter J <wouter@wouterj.nl>
+ */
 class MatchUtil
 {
     /**

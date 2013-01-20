@@ -5,13 +5,26 @@ namespace Inspector\Listener;
 use Inspector\Event\FileListEvent;
 use Inspector\Filter\FilterInterface;
 
+/**
+ * A class that handles build-in filters.
+ *
+ * @author Wouter J <wouter@wouterj.nl>
+ */
 class FilterListener
 {
+    /**
+     * @var \Traversable
+     */
     private $availableFilters;
+
+    /**
+     * @var array
+     */
     private $filters;
 
     /**
-     * @param \Traversable $filters
+     * @param \Traversable $availableFilters
+     * @param array        $filters
      */
     public function __construct($availableFilters, $filters)
     {
@@ -19,6 +32,11 @@ class FilterListener
         $this->setFilters($filters);
     }
 
+    /**
+     * Dispatching method.
+     *
+     * @param FileListEvent $event
+     */
     public function onFind(FileListEvent $event)
     {
         $filters = $this->getAvailableFilters();
@@ -32,6 +50,17 @@ class FilterListener
         }
     }
 
+    /**
+     * Registers the filter.
+     *
+     * @param Finder $finder
+     * @param string $name   The filter's name
+     * @param string $filter The filter
+     *
+     * @throws \RunTimeException         When the filter wasn't choosen
+     * @throws \InvalidArgumentException When the filter is wrong
+     * @throws \LogicException           When the filter doesn't implement FilterInterface
+     */
     private function registerFilter($finder, $name, $filter)
     {
         $filters = $this->getAvailableFilters();
@@ -65,9 +94,6 @@ class FilterListener
         });
     }
 
-    /**
-     * @param \Traversable $filters
-     */
     private function setAvailableFilters(\Traversable $filters)
     {
         $this->availableFilters = $filters;
