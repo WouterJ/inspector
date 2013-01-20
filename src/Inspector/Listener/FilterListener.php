@@ -38,7 +38,7 @@ class FilterListener
                 } elseif (class_exists($filter)) {
                     $filter = new $filter();
                 } else {
-                    throw new \InvalidArgumentException('Filter must be a callable which returns a filter class, a build-in filter name or a filter class name.');
+                    throw new \InvalidArgumentException('Filter must be a callable which returns a filter class, a build-in filter name.');
                 }
 
                 if (!$filter instanceof FilterInterface) {
