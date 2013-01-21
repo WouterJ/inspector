@@ -41,6 +41,7 @@ EOT
                 new InputOption('pattern', 'p', InputOption::VALUE_REQUIRED, 'The pattern to search for, this can be a string or a pattern'),
                 new InputOption('dir', 'd', InputOption::VALUE_REQUIRED, 'The directory to search in, this will be the current directory by default'),
                 new InputOption('filter', 'f', InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'A pattern that defines which files to ignore'),
+                new InputOption('log', null, InputOption::VALUE_NONE, 'If true, this will log all events in a _inspector.log file'),
             ))
         ;
     }
@@ -60,6 +61,12 @@ EOT
 
         if (null === $input->getOption('dir')) {
             $input->setOption('dir', getcwd());
+        }
+
+        if ($input->getOption('log')) {
+            if (!class_exists('Monolog\Logger')) {
+                throw new \RunTimeException('Cannot log record when Monolog is not installed');
+            }
         }
 
         // filter listener
