@@ -12,7 +12,7 @@ use Symfony\Component\Finder\Finder as BaseFinder;
 class Finder extends BaseFinder
 {
     /**
-     * {@inheritDocs}
+     * {@inheritDoc}
      *
      * @param callable $callable
      *

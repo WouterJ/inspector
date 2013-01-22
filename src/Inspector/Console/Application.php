@@ -17,7 +17,7 @@ class Application extends BaseApplication
     private $container;
 
     /**
-     * {@inheritDocs}
+     * {@inheritDoc}
      *
      * @param \Pimple $container
      */

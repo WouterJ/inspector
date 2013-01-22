@@ -43,7 +43,7 @@ class GitIgnoreFilter implements FilterInterface
     }
 
     /**
-     * {@inheritDocs}
+     * {@inheritDoc}
      */
     public function filter(\SplFileInfo $file)
     {

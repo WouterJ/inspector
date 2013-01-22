@@ -18,7 +18,7 @@ use Inspector\Util\MatchUtil;
 class InspectorCommand extends Command
 {
     /**
-     * {@inheritDocs}
+     * {@inheritDoc}
      */
     public function configure()
     {
@@ -47,7 +47,7 @@ EOT
     }
 
     /**
-     * {@inheritDocs}
+     * {@inheritDoc}
      */
     public function execute(InputInterface $input, OutputInterface $output)
     {
