@@ -2,6 +2,7 @@
 
 namespace Inspector\Provider;
 
+use Inspector\Exception;
 use Inspector\Console\Command;
 
 /**
@@ -16,12 +17,16 @@ class ConsoleServiceProvider implements ProviderInterface
      */
     public static function register(\Pimple $container)
     {
-        $container['console.command'] = new \ArrayObject();
-
         $container['console.application.class'] = 'Inspector\Console\Application';
-        $container['console.command']['inspector'] = function () {
-            return new Command\InspectorCommand();
-        };
+        if (class_exists($container['console.application.class'])) {
+            self::registerApplication($container);
+        } else {
+            throw new Exception\Provider\ClassNotFoundException('Console', $container['console.application.class']);
+        }
+    }
+
+    public static function registerApplication(\Pimple $container)
+    {
         $container['console.application'] = $container->share(function ($c) {
             $app = new $c['console.application.class']($c);
 
@@ -31,5 +36,15 @@ class ConsoleServiceProvider implements ProviderInterface
 
             return $app;
         });
+
+        $container['console.command'] = new \ArrayObject();
+        self::registerCommands($container);
+    }
+
+    public static function registerCommands(\Pimple $container)
+    {
+        $container['console.command']['inspector'] = function () {
+            return new Command\InspectorCommand();
+        };
     }
 }
