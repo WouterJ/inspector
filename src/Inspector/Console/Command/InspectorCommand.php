@@ -64,12 +64,6 @@ EOT
             $input->setOption('dir', getcwd());
         }
 
-        if ($input->getOption('log')) {
-            if (!class_exists('Monolog\Logger')) {
-                throw new Exception\ClassNotFoundException('Cannot log record when Monolog is not installed');
-            }
-        }
-
         // filter listener
         $filter = $input->getOption('filter');
         $inspectorFilters = array();
