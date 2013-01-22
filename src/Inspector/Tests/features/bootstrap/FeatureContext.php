@@ -17,6 +17,7 @@ use Symfony\Component\Filesystem\Filesystem;
 class FeatureContext extends BehatContext
 {
     private $tmp;
+    private static $cliDir;
     private $fs;
 
     /**
@@ -49,11 +50,14 @@ class FeatureContext extends BehatContext
      */
     public function inDir($dir)
     {
+        if (null === self::$cliDir) {
+            self::$cliDir = getcwd();
+        }
         $this->dir = $dir;
 
         $dir = $this->tmp.'/'.$dir;
         $this->fs->mkdir($dir);
-
+        
         chdir($dir);
     }
 
@@ -88,7 +92,7 @@ class FeatureContext extends BehatContext
      */
     public function runCommand($command, $options)
     {
-        exec('php e:\wouter\web\wamp\www\Inspector\inspector.php '.$command.' '.$options, $output);
+        exec('php "'.self::$cliDir.'/inspector.php" '.$command.' '.$options, $output);
 
         $this->display = $output;
     }
