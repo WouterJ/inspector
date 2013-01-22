@@ -94,9 +94,9 @@ class FilterListener
     {
         $filters = $this->getAvailableFilters();
 
-        if (!isset($filters[$name])) {
+        if (isset($filters[$name])) {
             throw new \InvalidArgumentException(
-                sprintf('Filter "%s" does already exists and is an instance of "%s"', $name, get_class($filters[$name]))
+                sprintf('Filter "%s" does already exists"', $name)
             );
         }
 
