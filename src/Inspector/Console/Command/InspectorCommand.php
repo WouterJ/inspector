@@ -42,7 +42,6 @@ EOT
                 new InputOption('pattern', 'p', InputOption::VALUE_REQUIRED, 'The pattern to search for, this can be a string or a pattern'),
                 new InputOption('dir', 'd', InputOption::VALUE_REQUIRED, 'The directory to search in, this will be the current directory by default'),
                 new InputOption('filter', 'f', InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'A pattern that defines which files to ignore'),
-                new InputOption('log', null, InputOption::VALUE_NONE, 'If true, this will log all events in a _inspector.log file'),
             ))
         ;
     }
