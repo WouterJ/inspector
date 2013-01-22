@@ -14,6 +14,7 @@ Provider\FinderServiceProvider::register($container);
 Provider\EventDispatcherServiceProvider::register($container);
 Provider\InspectorServiceProvider::register($container);
 Provider\ConsoleServiceProvider::register($container);
+Provider\LoggingServiceProvider::register($container);
 
 
 /*-----------------------------------*\
