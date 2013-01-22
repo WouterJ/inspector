@@ -13,25 +13,8 @@ use Inspector\Exception;
  */
 class FilterListener
 {
-    /**
-     * @var \Traversable
-     */
-    private $availableFilters;
-
-    /**
-     * @var array
-     */
-    private $filters;
-
-    /**
-     * @param \Traversable $availableFilters
-     * @param array        $filters
-     */
-    public function __construct($availableFilters, $filters)
-    {
-        $this->setAvailableFilters($availableFilters);
-        $this->setFilters($filters);
-    }
+    private $availableFilters = array();
+    private $filters = array();
 
     /**
      * Dispatching method.
@@ -98,13 +81,38 @@ class FilterListener
         });
     }
 
-    private function setAvailableFilters(\Traversable $filters)
+    public function setAvailableFilters(array $filters)
     {
         $this->availableFilters = $filters;
     }
 
     /**
-     * @return \Traversable
+     * @param string   $name
+     * @param callable $filter
+     */
+    public function addAvailableFilter($name, $filter)
+    {
+        $filters = $this->getAvailableFilters();
+
+        if (!isset($filters[$name])) {
+            throw new \InvalidArgumentException(
+                sprintf('Filter "%s" does already exists and is an instance of "%s"', $name, get_class($filters[$name]))
+            );
+        }
+
+        if (!is_callable($filter)) {
+            throw new \InvalidArgumentException(
+                sprintf("The filter must be a callable, %s given", gettype($filter))
+            );
+        }
+
+        $filters[$name] = $filter;
+
+        $this->setAvailableFilters($filters);
+    }
+
+    /**
+     * @return array
      */
     public function getAvailableFilters()
     {

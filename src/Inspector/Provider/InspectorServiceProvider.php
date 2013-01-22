@@ -18,35 +18,37 @@ class InspectorServiceProvider implements ProviderInterface
     {
         $container['inspector.class'] = 'Inspector\Inspector';
 
-        $container['inspector.filter.filters'] = new \ArrayObject();
         self::registerListener($container);
-
         self::registerInspector($container);
     }
 
     public static function registerListener(\Pimple $container)
     {
-        $container['inspector.filter.listener.filters'] = array();
-        $container['inspector.filter.listener'] = function ($c) {
-            return new \Inspector\Listener\FilterListener($c['inspector.filter.filters'], $c['inspector.filter.listener.filters']);
+        $container['inspector.filter_listener'] = function ($c) {
+            return new \Inspector\Listener\FilterListener();
         };
 
         self::registerFilters($container);
+
+        // register listener
+        $container['event_dispatcher']->attach(
+            \Inspector\InspectorEvents::FIND,
+            array($container['inspector.filter_listener'], 'onFind')
+        );
     }
 
     public static function registerFilters(\Pimple $container)
     {
-        $container['inspector.filter.filters']['gitignore'] = function () {
-            return new Filter\GitIgnoreFilter();
-        };
+        $container['inspector.filter_listener'] = $container->extend('inspector.filter_listener', function ($listener, $c) {
+            $listener->addAvailableFilter('gitignore', new Filter\GitIgnoreFilter());
+
+            return $listener;
+        });
     }
 
     public static function registerInspector(\Pimple $container)
     {
         $container['inspector'] = function ($c) {
-            $c['event_dispatcher']->attach(\Inspector\InspectorEvents::FIND, array($c['inspector.filter.listener'], 'onFind'));
-            
-
             return new $c['inspector.class']($c['finder'], $c['event_dispatcher']);
         };
     }
