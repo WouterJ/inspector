@@ -3,14 +3,14 @@
 Inspector is a simple tool that can be used to search in a directory for a
 given string or pattern.
 
-## Installation {#installation}
+## Installation
 
 Inspector is available as a composer package on packagist. Installing it is
 quite simple:
 
     $ composer create-project wouterj/inspector
 
-## Usage {#usage}
+## Usage
 
  > This is a quick documentation, advantage documentation is added during the
  > BETA period
@@ -41,7 +41,7 @@ This command has multiple options:
        # ignores all php files
        $ php inspector.php inspect -p 'foo' -f '*.php'
 
-### Filters {#filters}
+### Filters
 
 Inspector has one build-in filter at the moment. Filters provide a solution
 for common `--filter` pattern.
