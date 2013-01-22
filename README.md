@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/WouterJ/inspector.png)](https://travis-ci.org/WouterJ/inspector)
+
 # Inspector
 
 Inspector is a simple tool that can be used to search in a directory for a
