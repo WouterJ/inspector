@@ -106,14 +106,8 @@ class FeatureContext extends BehatContext
             return str_replace('\\', '/', $str);
         };
 
-        if (count($lines) !== count($display)) {
-            throw new \Exception(
-                sprintf(
-                    'Failed asserting that %d expected files are equal to %d actual suspects',
-                    count($lines),
-                    count($display)
-                )
-            );
+        if ((0 === count($lines)) && 0 !== count($display)) {
+            throw new \Exception('Failed asserting that there are no suspects');
         }
 
         $i = 0;
