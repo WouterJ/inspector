@@ -25,7 +25,7 @@ class Application extends BaseApplication
     {
         $this->container = $container;
 
-        parent::__construct('Inspector', '1.0.0');
+        parent::__construct('Inspector', '1.0.0-BETA1');
 
         $this->getHelperSet()->set(new Command\Helper\TableHelper());
     }
