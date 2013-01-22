@@ -7,6 +7,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+use Inspector\Exception;
 use Inspector\Util\MatchUtil;
 
 /**
@@ -56,7 +57,7 @@ EOT
 
         // set up
         if (null === $input->getOption('pattern')) {
-            throw new \RunTimeException('The "pattern" option must be provided');
+            throw new Exception\OptionNotProvidedException('pattern');
         }
 
         if (null === $input->getOption('dir')) {
@@ -65,7 +66,7 @@ EOT
 
         if ($input->getOption('log')) {
             if (!class_exists('Monolog\Logger')) {
-                throw new \RunTimeException('Cannot log record when Monolog is not installed');
+                throw new Exception\ClassNotFoundException('Cannot log record when Monolog is not installed');
             }
         }
 

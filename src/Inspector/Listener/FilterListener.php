@@ -4,6 +4,7 @@ namespace Inspector\Listener;
 
 use Inspector\Event\FileListEvent;
 use Inspector\Filter\FilterInterface;
+use Inspector\Exception;
 
 /**
  * A class that handles build-in filters.
@@ -40,11 +41,16 @@ class FilterListener
     public function onFind(FileListEvent $event)
     {
         $filters = $this->getAvailableFilters();
+        $choosenFilters = $this->getFilters();
 
         foreach ($filters as $name => $filter) {
             try {
                 $this->registerFilter($event->getFinder(), $name, $filter);
-            } catch (\Exception $e) {
+            } catch (Exception\Filter\ContinueException $e) {
+                if (in_array($name, $choosenFilters)) {
+                    throw $e;
+                }
+
                 continue;
             }
         }
@@ -57,9 +63,9 @@ class FilterListener
      * @param string $name   The filter's name
      * @param string $filter The filter
      *
-     * @throws \RunTimeException         When the filter wasn't choosen
-     * @throws \InvalidArgumentException When the filter is wrong
-     * @throws \LogicException           When the filter doesn't implement FilterInterface
+     * @throws Exception\Filter\ContinueException      When the filter wasn't choosen
+     * @throws Exception\Filter\InvaildFilterException When the filter is wrong
+     * @throws Exception\Filter\InvaildFilterException When the filter doesn't implement FilterInterface
      */
     private function registerFilter($finder, $name, $filter)
     {
@@ -67,7 +73,7 @@ class FilterListener
         $choosenFilters = $this->getFilters();
 
         if (!in_array($name, $choosenFilters)) {
-            throw new \RuntimeException(sprintf('Filter "%s" is not choosen', $name));
+            throw new Exception\Filter\ContinueException(sprintf('Filter "%s" is not choosen', $name));
         }
 
         if (is_callable($filter)) {
@@ -77,16 +83,14 @@ class FilterListener
         } elseif (class_exists($filter)) {
             $filter = new $filter();
         } else {
-            throw new \InvalidArgumentException('Filter must be a callable which returns a filter class, a build-in filter name.');
+            throw new Exception\Filter\InvalidFilterException(array(
+                'a callable which returns a filter class',
+                'a build-in filter name',
+            ));
         }
 
         if (!$filter instanceof FilterInterface) {
-            throw new \LogicException(
-                sprintf(
-                    'The filter must be an instance of Inspector\Filter\FilterInterface',
-                    get_class($filter)
-                )
-            );
+            throw new Exception\Filter\InvalidFilterException('an instance of Inspector\Filter\FilterInterface');
         }
 
         $finder->filter(function (\SplFileInfo $file) use ($filter) {

@@ -36,7 +36,9 @@ class GitIgnoreFilter implements FilterInterface
             }
             $this->excludedFiles = $gitignore;
         } else {
-            throw new \RunTimeException('.gitignore file not found');
+            throw new \RunTimeException(
+                sprintf('The .gitignore file is not found in %s', $gitignore_location)
+            );
         }
     }
 
