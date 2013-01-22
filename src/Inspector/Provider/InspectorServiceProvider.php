@@ -24,9 +24,9 @@ class InspectorServiceProvider implements ProviderInterface
 
     public static function registerListener(\Pimple $container)
     {
-        $container['inspector.filter_listener'] = function ($c) {
+        $container['inspector.filter_listener'] = $container->share(function ($c) {
             return new \Inspector\Listener\FilterListener();
-        };
+        });
 
         self::registerFilters($container);
 
@@ -39,11 +39,15 @@ class InspectorServiceProvider implements ProviderInterface
 
     public static function registerFilters(\Pimple $container)
     {
-        $container['inspector.filter_listener'] = $container->extend('inspector.filter_listener', function ($listener, $c) {
-            $listener->addAvailableFilter('gitignore', new Filter\GitIgnoreFilter());
+        $container['inspector.filter_listener'] = $container->share(
+            $container->extend('inspector.filter_listener', function ($listener, $c) {
+                $listener->addAvailableFilter('gitignore', function () {
+                    return new Filter\GitIgnoreFilter();
+                });
 
-            return $listener;
-        });
+                return $listener;
+            })
+        );
     }
 
     public static function registerInspector(\Pimple $container)

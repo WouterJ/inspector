@@ -91,7 +91,7 @@ EOT
             }
         }
 
-        $container['inspector.filter.listener.filters'] = $listenerFilters;
+        $container['inspector.filter_listener']->setFilters($listenerFilters);
 
         // inspector
         $inspector = $container['inspector'];
