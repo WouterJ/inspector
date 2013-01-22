@@ -10,7 +10,7 @@
 
     "require": {
         "symfony/finder": "2.1.x",
-        "symfony/event-dispatcher": "2.1.x",
+        "zendframework/zend-eventmanager": "2.0.x",
         "symfony/console": "2.1.x",
         "pimple/pimple": "1.x"
     },
@@ -23,6 +23,12 @@
         "monolog/monolog": "To log all events, required when using the --log switch"
     },
 
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://packages.zendframework.com/"
+        }
+    ],
     "autoload": {
         "psr-0": {
             "": "src/"
