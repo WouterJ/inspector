@@ -16,7 +16,7 @@ class EventDispatcherServiceProvider implements ProviderInterface
      */
     public static function register(\Pimple $container)
     {
-        $container['event_dispatcher.class'] = 'Symfony\Component\EventDispatcher\EventDispatcher';
+        $container['event_dispatcher.class'] = 'Zend\EventManager\EventManager';
 
         if (class_exists($container['event_dispatcher.class'])) {
             $container['event_dispatcher'] = $container->share(function ($c) {
