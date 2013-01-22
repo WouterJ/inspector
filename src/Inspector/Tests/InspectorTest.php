@@ -3,12 +3,14 @@
 namespace Inspector\Tests;
 
 use Inspector\Inspector;
+use Inspector\InspectorEvents;
 use Inspector\Iterator\Suspects;
 use Inspector\Filter\GitIgnoreFilterIterator;
 
 use Symfony\Component\Finder\Finder;
-use Symfony\Component\EventDispatcher\Event;
-use Symfony\Component\EventDispatcher\EventDispatcher;
+
+use Zend\EventManager\Event;
+use Zend\EventManager\EventManager;
 
 /**
  * @covers Inspector
@@ -70,7 +72,7 @@ class InspectorTest extends \PHPUnit_Framework_TestCase
      */
     public function testTweakFoundedFiles()
     {
-        $this->getDispatcher()->addListener('inspector.find', function (Event $event) {
+        $this->getDispatcher()->attach(InspectorEvents::FIND, function (Event $event) {
             $event->getFinder()->notName('*.txt'); // removes every text file (test1.txt)
         });
 
@@ -86,7 +88,7 @@ class InspectorTest extends \PHPUnit_Framework_TestCase
      */
     public function testTweakSuspects()
     {
-        $this->getDispatcher()->addListener('inspector.mark', function (Event $event) {
+        $this->getDispatcher()->attach(InspectorEvents::MARK, function (Event $event) {
             $suspects = $event->getSuspects()->getArrayCopy();
             array_pop($suspects); // remove the last suspect
 
@@ -149,6 +151,6 @@ class InspectorTest extends \PHPUnit_Framework_TestCase
 
     private function setDispatcher()
     {
-        $this->dispatcher = new EventDispatcher();
+        $this->dispatcher = new EventManager();
     }
 }

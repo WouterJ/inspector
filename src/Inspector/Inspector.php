@@ -4,11 +4,11 @@ namespace Inspector;
 
 use Inspector\InspectorEvents;
 use Inspector\Iterator\Suspects;
-use Inspector\Event\SuspectEvent;
-use Inspector\Event\FileListEvent;
+use Inspector\Event;
 
 use Symfony\Component\Finder\Finder;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+
+use Zend\EventManager\EventManagerInterface;
 
 /**
  * The heart of the Inspector application.
@@ -28,8 +28,8 @@ class Inspector
     private $dispatcher;
 
     /**
-     * @param Finder                   $finder
-     * @param EventDispatcherInterface $dispatcher
+     * @param Finder                $finder
+     * @param EventManagerInterface $dispatcher
      */
     public function __construct($finder, $dispatcher)
     {
@@ -66,10 +66,12 @@ class Inspector
             }
         }
 
-        $event = new FileListEvent();
+        $event = new Event\FileListEvent();
+        $event->setName(InspectorEvents::FIND);
+        $event->setTarget($this);
         $event->setFinder($finder);
 
-        $this->getDispatcher()->dispatch(InspectorEvents::FIND, $event);
+        $this->getDispatcher()->trigger($event);
 
         // mark files as suspect
         $suspects = new Suspects();
@@ -78,10 +80,12 @@ class Inspector
             $suspects->append($file);
         }
 
-        $event = new SuspectEvent();
+        $event = new Event\SuspectEvent();
+        $event->setName(InspectorEvents::MARK);
+        $event->setTarget($this);
         $event->setSuspects($suspects);
 
-        $this->getDispatcher()->dispatch(InspectorEvents::MARK, $event);
+        $this->getDispatcher()->trigger($event);
 
         return $suspects;
     }
@@ -111,9 +115,9 @@ class Inspector
     }
 
     /**
-     * @param EventDispatcherInterface $dispatcher
+     * @param EventManagerInterface $dispatcher
      */
-    public function setDispatcher(EventDispatcherInterface $dispatcher)
+    public function setDispatcher(EventManagerInterface $dispatcher)
     {
         $this->dispatcher = $dispatcher;
     }

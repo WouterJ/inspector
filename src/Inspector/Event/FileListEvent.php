@@ -3,7 +3,8 @@
 namespace Inspector\Event;
 
 use Symfony\Component\Finder\Finder;
-use Symfony\Component\EventDispatcher\Event;
+
+use Zend\EventManager\Event;
 
 /**
  * This Event is used when @link{InspectorEvents::FIND} is dispatched.

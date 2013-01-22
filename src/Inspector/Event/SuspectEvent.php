@@ -4,7 +4,7 @@ namespace Inspector\Event;
 
 use Inspector\Iterator\Suspects;
 
-use Symfony\Component\EventDispatcher\Event;
+use Zend\EventManager\Event;
 
 /**
  * This Event is used when @link{InspectorEvents::MARK} is dispatched.
