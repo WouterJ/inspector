@@ -103,28 +103,52 @@ class FeatureContext extends BehatContext
     public function getResult(PyStringNode $expected)
     {
         $tmp = substr($this->tmp, 0, -1);
+
+        if (!function_exists('normalize')) {
+            function normalize($str) {
+                return str_replace('\\', '/', $str);
+            };
+        }
+
+        // expected
         $lines = array_slice($expected->getLines(), 2);
+        $expectedFiles = array_map(function ($line) {
+            // remove everything before the filepath
+            return normalize(trim(preg_replace('/\d\s*/', '', $line)));
+        }, $lines);
+
+        // actual
         $display = array_slice($this->display, 3);
+        $actualFiles = array_map(function ($line) {
+            // remove everything before the filepath
+            return normalize(trim(preg_replace('/\d\s*/', '', $line)));
+        }, $display);
 
-        $normalize = function ($str) use ($tmp) {
-            return str_replace('\\', '/', $str);
-        };
-
+        // compare
         if ((0 === count($lines)) && 0 !== count($display)) {
             throw new \Exception('Failed asserting that there are no suspects');
         }
 
-        $i = 0;
-        foreach ($lines as $line) {
-            if ($normalize($line) !== $normalize($display[$i++])) {
+        foreach ($expectedFiles as $expected) {
+            if (false !== ($key = array_search($expected, $actualFiles))) {
+                unset($actualFiles[$key]);
+            } else {
                 throw new \Exception(
                     sprintf(
-                        'Failed asserting that "%s" is equal to "%s"',
-                        $normalize($line),
-                        $normalize(current($display))
+                        'Failed asserting that file "%s" is a suspect',
+                        $expected
                     )
                 );
             }
+        }
+
+        if (0 !== count($actualFiles)) {
+            throw new \Exception(
+                sprintf(
+                    'The file(s) "%s" are suspects too',
+                    implode('", "', $actualFiles)
+                )
+            );
         }
     }
 }
